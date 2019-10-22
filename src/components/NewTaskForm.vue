@@ -2,24 +2,30 @@
     <div>
 
         <form>
-            <label for="taskOwnerName">Task owner name</label>
-            <input v-model="task.owner.name" name="taskOwnerName"/>
-            <label for="taskOwnerAvatarSmall">Task owner avatar</label>
-            <input v-model="task.owner.avatarSmall" name="taskOwnerAvatarSmall"/>
-            <label for="taskTitle">Task title</label>
-            <input v-model="task.title" name="taskTitle">
-            <label for="taskStatusString">Task status</label>
-            <select v-model="task.statusString" name="taskStatusString">
-                <option value="new">New</option>
-                <option value="inProgress">In progress</option>
-                <option value="inReview">In review</option>
-                <option value="done">Done</option>
-                <option value="closed">Closed</option>
-            </select>
-            <label for="taskDate">Task date</label>
-            <input v-model="task.date" name="taskDate"/>
+            <div>
+                <label for="taskOwnerName">Task owner name</label>
+                <input v-model="task.owner.name" name="taskOwnerName"/>
+                <label for="taskOwnerAvatarSmall">Task owner avatar</label>
+                <input v-model="task.owner.avatarSmall" name="taskOwnerAvatarSmall"/>
+                <label for="taskTitle">Task title</label>
+                <input v-model="task.title" name="taskTitle">
+                <label for="taskStatusString">Task status</label>
+                <select v-model="task.statusString" name="taskStatusString">
+                    <option value="new">New</option>
+                    <option value="inProgress">In progress</option>
+                    <option value="inReview">In review</option>
+                    <option value="done">Done</option>
+                    <option value="closed">Closed</option>
+                </select>
+                <label for="taskDate">Task date</label>
+                <input v-model="task.date" name="taskDate"/>
+            </div>
+            <div>
+                <label for="taskDescription">Description</label>
+                <textarea v-model="task.description" name="taskDescription"></textarea>
 
-            <button @click.prevent="doAddTask()">Do add task</button>
+                <button @click.prevent="doAddTask()">Do add task</button>
+            </div>
         </form>
 
     </div>

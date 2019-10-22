@@ -3,7 +3,7 @@
         <h3>{{ title }}</h3>
         <ul>
             <li  v-for="task in tasksA" :key="task.id">
-                <SmallTask v-bind:task="task" @deleteTask="deleteTaskById" />
+                <SmallTask v-bind:task="task" @deleteTask="deleteTaskById" @show-large-task-form="showLargeTaskForm"/>
             </li>
         </ul>
     </div>
@@ -32,6 +32,9 @@
         methods: {
             deleteTaskById(payload) {
                 alert("delete " + payload.id);
+            },
+            showLargeTaskForm(id) {
+                alert('show large task form clicked');
             }
         }
     };
@@ -46,7 +49,7 @@
 
     .task-list {
         position: relative;
-        width: 200px;
+        width: 350px;
         height: 100%;
         min-height: 300px;
         max-height: 700px;

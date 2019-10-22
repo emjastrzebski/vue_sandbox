@@ -8,12 +8,23 @@ Vue.config.productionTip = false;
 
 Vue.use(Vuex);
 
+var _ = require('lodash');
+
 let store = new Vuex.Store({
  state: {
   config: {},
-  tasks: {}
+  tasks: {},
+  owners: [],
+  selectedTask: {},
+  doShowTask: false
  },
  getters: {
+     doShowTask: state => {
+         return state.doShowTask;
+     },
+     getSelectedTask: state => {
+         return state.selectedTask;
+     },
    tasksNew: state => {
      return state.tasks.new;
    },
@@ -30,7 +41,10 @@ let store = new Vuex.Store({
        return state.tasks.closed;
    },
    getConfig: state => {
-      return state.config
+      return state.config;
+   },
+   owners: state => {
+       return state.owners;
    }
  },
  mutations: {
@@ -40,34 +54,47 @@ let store = new Vuex.Store({
       setConfig( state, configData )  {
             this.state.config = configData;
       },
+     setOwners( state, ownersData) {
+         this.state.owners = ownersData;
+     },
      doAddTask( state, payload ) {
 
-         var taskToAdd = payload.task;
+         var newTask = {}
+         var taskToAdd = Object.assign(newTask, payload.task);
 
          var min = Math.ceil(1);
          var max = Math.floor(5000);
          taskToAdd.id = Math.floor(Math.random() * (max - min + 1)) + min
 
-         switch(payload.targetList) {
-             case 'new':
-                 state.tasks.new.push(taskToAdd); break;
-             case 'inProgress':
-                 state.tasks.inProgress.push(taskToAdd); break;
-             case 'inReview':
-                 state.tasks.inReview.push(taskToAdd); break;
-             case 'done':
-                 state.tasks.done.push(taskToAdd); break;
-             case 'closed':
-                 state.tasks.closed.push(taskToAdd); break;
-             default:
-                 alert('BAD TARGET LIST'); break;
-         }
+         state.tasks["" + payload.targetList].push(taskToAdd);
+
+     },
+     doShowTask( state, payload ) {
+         var taskToShowIndex = _.findIndex(state.tasks[""+payload.taskListId], ['id', payload.id]);
+
+         state.selectedTask = state.tasks[""+payload.taskListId][taskToShowIndex];
+         state.doShowTask = true;
+     },
+     doCloseResetTask ( state, payload ) {
+           state.selectedTask = false;
+           state.doShowTask = false;
+     },
+     doUpdateTaskTitle( state, payload) {
+
+         var taskIndex = _.findIndex(state.tasks[""+payload.taskListId], ['id', payload.id]);
+
+         state.tasks[""+payload.taskListId][taskIndex].title = payload.title;
+     },
+     doUpdateTaskOwner( state, payload ) {
+         var newOwner = state.owners[_.findIndex(state.owners, ["id", payload.ownerId]) ];
+         var taskIndex = _.findIndex(state.tasks[""+payload.taskListId], ['id', payload.id]);
+
+         state.tasks[""+payload.taskListId][taskIndex].owner = newOwner;
      },
      doDeleteTask( state, payload) {
-           alert('store.doDeleteTask fired'); console.dir(payload);
-
-         var index = _.findIndex(this.users, ["id", id]);
-         this.users.splice(index, 1);
+           var listToDeleteFrom = state.tasks["" + payload.targetList];
+           var index = _.findIndex(listToDeleteFrom, ["id",payload.id]);
+           listToDeleteFrom.splice(index,1);
      }
  }
 });
