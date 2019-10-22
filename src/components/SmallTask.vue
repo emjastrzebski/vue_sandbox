@@ -1,5 +1,6 @@
 <template>
-        <div :class="taskStatus">
+    <li class="mj-task-draggable mj-task-droppable">
+        <div :class="taskStatus" :id="cssTaskId">
             <span class="avatar">
                 <img class="smallAvatar" :src="avatarImage"/>
             </span>
@@ -23,6 +24,7 @@
             <button class="btn btn-default" @click.prevent="toggleEditTask()">Edit</button>
             <button class="btn btn-default" @click.prevent="deleteTask()">Delete</button>
         </div>
+    </li>
 </template>
 
 <script>
@@ -44,6 +46,9 @@
             },
             taskStatus: function() {
                 return "task " + this.task.statusString
+            },
+            cssTaskId: function() {
+                return "task_container_" + this.task.id;
             },
             avatarImage: function() {
                 return this.task.owner.avatarSmall;
@@ -101,6 +106,18 @@
                 this.$store.commit('doDeleteTask', payload);
 
             }
+        },
+        mounted() {
+
+            $(".mj-task-draggable").draggable({
+                revert: true,
+                opacity: 0.5,
+                helper: "clone",
+
+            });
+
+            $(".mj-task-droppable").droppable();
+
         }
     }
 </script>

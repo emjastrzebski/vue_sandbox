@@ -15,11 +15,14 @@
 
       </div>
 
-      <TasksList title="New tasks" :tasks="this.$store.getters.tasksNew"/>
-      <TasksList title="In progress" :tasks="this.$store.getters.tasksInProgress"/>
-      <TasksList title="In review" :tasks="this.$store.getters.tasksInReview"/>
-      <TasksList title="Done" :tasks="this.$store.getters.tasksDone"/>
-      <TasksList title="Closed" :tasks="this.$store.getters.tasksClosed"/>
+      <div id="tasksListsContainer">
+          <TasksList title="New tasks" :tasks="this.$store.getters.tasksNew"/>
+          <TasksList title="In progress" :tasks="this.$store.getters.tasksInProgress"/>
+          <TasksList title="In review" :tasks="this.$store.getters.tasksInReview"/>
+          <TasksList title="Done" :tasks="this.$store.getters.tasksDone"/>
+          <TasksList title="Closed" :tasks="this.$store.getters.tasksClosed"/>
+      </div>
+
   </div>
 
 </template>

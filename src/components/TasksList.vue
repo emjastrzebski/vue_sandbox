@@ -1,12 +1,8 @@
 <template>
-    <div class="task-list fl">
+    <ul class="task-list fl">
         <h3>{{ title }}</h3>
-        <ul>
-            <li  v-for="task in tasksA" :key="task.id">
-                <SmallTask v-bind:task="task" @deleteTask="deleteTaskById" @show-large-task-form="showLargeTaskForm"/>
-            </li>
-        </ul>
-    </div>
+        <SmallTask v-for="task in tasks" :key="task.id" v-bind:task="task" @deleteTask="deleteTaskById"/>
+    </ul>
 </template>
 
 <script>
@@ -32,10 +28,8 @@
         methods: {
             deleteTaskById(payload) {
                 alert("delete " + payload.id);
-            },
-            showLargeTaskForm(id) {
-                alert('show large task form clicked');
             }
+
         }
     };
 
@@ -56,13 +50,16 @@
         border: 1px solid black;
         margin: 5px;
         padding: 5px;
-        overflow-y: scroll;
+        /*overflow-y: scroll;*/
     }
 
     ul {
+        display: block;
         list-style: none;
         padding: 0;
         margin: 0;
+        z-index: 490;
+        overflow: hidden;
     }
 
     ul li {
@@ -72,5 +69,6 @@
         padding: 0;
         margin: 0;
         margin-bottom: 5px;
+        z-index: 500;
     }
 </style>
